@@ -28,6 +28,12 @@ const cumpleSchema = mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  edad: {
+    type: Number,
+  },
+  diasAlCumple: {
+    type: Number,
+  },
 });
 
 module.exports = mongoose.model('Cumple', cumpleSchema);

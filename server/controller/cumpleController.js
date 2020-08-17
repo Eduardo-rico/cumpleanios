@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 //modelos
 const Cumple = require('../models/cumpleModel');
 const Usuario = require('../models/usuarioModel');
@@ -44,6 +46,7 @@ const traerCumples = async (req, res) => {
           activated: true,
         },
         ['-activated'],
+        {sort: {diasAlCumple: 1}},
       );
       if (!todosLosCumples) {
         throw new Error('Error Al traer los cumpleaños, throw');
@@ -58,6 +61,8 @@ const traerCumples = async (req, res) => {
 };
 const crearCumple = async (req, res) => {
   const {usuarioId} = req;
+  const {fechaCumple, nombre, apellido} = req.body;
+  const {edad, diasAlCumple} = actualizarCumple(fechaCumple);
   try {
     if (!usuarioId) {
       res.status(403).json({mensaje: 'Vuelve a iniciar sesión'});
@@ -65,7 +70,11 @@ const crearCumple = async (req, res) => {
       const nuevoCumple = await Cumple.create({
         createdBy: usuarioId,
         createdAt: Date.now(),
-        ...req.body,
+        fechaCumple,
+        nombre,
+        apellido,
+        edad,
+        diasAlCumple,
       });
       if (!nuevoCumple) {
         throw new Error('Error Al crear el usuario, throw');
@@ -137,6 +146,18 @@ const desactivarCumple = async (req, res) => {
     // console.log(error);
     res.status(500).json({mensaje: 'Error Al eliminar el cumpleaños'});
   }
+};
+
+const actualizarCumple = (fechaCumple) => {
+  const hoy = moment(Date.now()).format('YYYY-MM-DD');
+  const edad = moment(hoy).diff(fechaCumple, 'years');
+
+  let siguienteCumple = moment(fechaCumple).add(edad, 'years');
+  moment(siguienteCumple).format('YYYY-MM-DD');
+
+  siguienteCumple = moment(fechaCumple).add(edad + 1, 'years');
+  const diasAlCumple = siguienteCumple.diff(hoy, 'days');
+  return {edad, diasAlCumple};
 };
 
 module.exports = {

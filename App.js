@@ -30,7 +30,7 @@ const App = () => {
         // console.log(usr);
         // console.log(usuario);
         guardarUsuario(usr);
-        if (usuario === {}) {
+        if (usuario !== {}) {
           if (!localtoken) {
             const login = await axios({
               url: `${URLHOST}/login`,

@@ -13,7 +13,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import URLHOST from '../../utils/constantes';
 
-const CumpleForm = ({mostrarLista, guardarMostrarLista}) => {
+const CumpleForm = ({
+  mostrarLista,
+  guardarMostrarLista,
+  guardarCargando,
+  cargando,
+}) => {
   const [datePickerVisible, guardarDatePickerVisible] = useState(false);
   const [cumple, guardarCumple] = useState({});
   const [error, guardarError] = useState({});
@@ -57,19 +62,20 @@ const CumpleForm = ({mostrarLista, guardarMostrarLista}) => {
   const crearCumple = async () => {
     try {
       const token = await AsyncStorage.getItem('@token_kumple');
-      const respuesta = await axios({
+      guardarCargando(!cargando);
+      const res = await axios({
         url: `${URLHOST}/cumple/crear`,
         method: 'post',
-        data: {
-          fechaCumple: cumple.fechaCumple,
-          nombre: cumple.nombre,
-          apellido: cumple.apellido,
-        },
+        data: cumple,
         headers: {
           authorization: `Bearer ${token}`,
         },
       });
-      console.log(respuesta.status);
+      guardarCargando(!cargando);
+      if (res.status != 201) {
+        return new Error('Error al crear el cumple');
+      }
+      // console.log(respuesta.status);
     } catch (error) {
       console.log(error);
     }
@@ -104,7 +110,7 @@ const CumpleForm = ({mostrarLista, guardarMostrarLista}) => {
               fontSize: 18,
             }}>
             {cumple.fechaCumple
-              ? moment(cumple.fechaCumple).format('LL')
+              ? moment(cumple.fechaCumple).format('L')
               : 'Fecha de nacimiento'}
           </Text>
         </View>
