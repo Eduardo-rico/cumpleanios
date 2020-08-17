@@ -19,6 +19,11 @@ const cumpleSchema = mongoose.Schema({
     required: true,
     trim: true,
   },
+  apellido: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   activated: {
     type: Boolean,
     default: true,

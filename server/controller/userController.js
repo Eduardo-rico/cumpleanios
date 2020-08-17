@@ -12,9 +12,10 @@ const hola = (req, res) => {
 const loggearUsuario = async (req, res) => {
   //si existe el usuario
   const {email, password} = req.body;
+  // console.log(email.toString(), password.toString());
   try {
     if (!email || !password) {
-      res.status(501).json({mensaje: 'Email y password son requeridos'});
+      res.status(506).json({mensaje: 'Email y password son requeridos'});
     } else {
       const usuarioBuscado = await Usuario.findOne({email});
       if (!usuarioBuscado) {
@@ -78,7 +79,7 @@ const crearUsuario = async (req, res) => {
         password: passwordEncriptado,
       });
       if (nuevoUsuario) {
-        res.status(200).json({
+        res.status(201).json({
           mensaje: 'Usuario creado',
         });
       } else {

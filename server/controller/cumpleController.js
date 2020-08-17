@@ -74,7 +74,7 @@ const crearCumple = async (req, res) => {
           {_id: usuarioId},
           {$push: {cumples: nuevoCumple._id}},
         );
-        res.status(200).json({mensaje: 'Cumpleaños creado correctamente'});
+        res.status(201).json({mensaje: 'Cumpleaños creado correctamente'});
       }
     }
   } catch (error) {

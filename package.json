@@ -11,14 +11,18 @@
     "dev": "nodemon ./server/index.js"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.11.0",
+    "@react-native-community/datetimepicker": "^3.0.0",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.27.0",
     "mongoose": "^5.9.28",
     "react": "16.13.1",
-    "react-native": "0.63.2"
+    "react-native": "0.63.2",
+    "react-native-modal-datetime-picker": "^8.9.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -28,6 +32,7 @@
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "react-test-renderer": "16.13.1"
   },
